@@ -1,0 +1,13 @@
+<div class="header">
+    <div class="navbar">
+      <a href="/">Home</a>
+      <% if (user) { %>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/logout">Logout</a>
+      <% } else { %>
+        <a href="/signup">Sign Up</a>
+        <a href="/login">Login</a>
+      <% } %>
+    </div>
+  </div>
+  
