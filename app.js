@@ -6,7 +6,7 @@ import { expressjwt as jwt } from 'express-jwt';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import jsonwebtoken from 'jsonwebtoken'; 
+import jsonwebtoken from 'jsonwebtoken';
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import homeRoutes from './routes/homeRoutes.js';
@@ -27,6 +27,10 @@ mongoose.connect(config.mongodbUri, {
 });
 
 const csrfProtection = csrf({ cookie: true });
+
+app.use(cors({
+  credentials: true,
+}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 

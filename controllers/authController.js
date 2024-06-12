@@ -21,31 +21,28 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-    try {
-      const { username, password } = req.body;
-      const user = await User.findOne({ username });
-      if (!user) {
-        console.log('User not found');
-        return res.status(401).send('Authentication failed');
-      }
-      const passwordMatch = await bcrypt.compare(password, user.password);
-      if (!passwordMatch) {
-        console.log('Password mismatch');
-        return res.status(401).send('Authentication failed');
-      }
-      const token = jwt.sign(
-        { userId: user._id, username: user.username },
-        config.jwtSecret,
-        { expiresIn: '1h' }
-      );
-      res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
-      console.log('Login successful, token set in cookie');
-      res.redirect('/dashboard');
-    } catch (error) {
-      console.error('Login error:', error);
-      res.status(500).send('Login failed: ' + error.message);
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(401).send('Authentication failed');
     }
-  };
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).send('Authentication failed');
+    }
+    const token = jwt.sign(
+      { userId: user._id, username: user.username },
+      config.jwtSecret,
+      { expiresIn: '7d' } 
+    );
+    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 7 * 24 * 60 * 60 * 1000 }); // Le cookie expire en 7 jours
+    res.redirect('/dashboard');
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).send('Login failed: ' + error.message);
+  }
+};
 
 export const logout = (req, res) => {
   res.clearCookie('token');
