@@ -3,18 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>header</title>
+  <title><%= typeof title !== 'undefined' ? title : 'Default Title' %></title>
   <link rel="stylesheet" href="/style.css" type="text/css">
-<div class="header">
+</head>
+<body>
+  <div class="header">
     <div class="navbar">
-      <a href="/">Home</a>
-      <% if (user) { %>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/logout">Logout</a>
-      <% } else { %>
-        <a href="/signup">Sign Up</a>
-        <a href="/login">Login</a>
-      <% } %>
+      <div class="navbar-left">
+        <img src="/logo.png" alt="Logo">
+        <a href="/">Home</a>
+      </div>
+      <div class="navbar-right">
+        <% if (user) { %>
+          <a href="/dashboard">Dashboard</a>
+          <a href="/logout">Logout</a>
+        <% } else { %>
+          <a href="/signup">Sign Up</a>
+          <a href="/login">Login</a>
+        <% } %>
+      </div>
     </div>
   </div>
-  
+</body>
+</html>
